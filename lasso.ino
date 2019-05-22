@@ -139,10 +139,23 @@ void FFT(){
     }
 }
 
+void IFFT(){
+    ndarray x = load_img();
+    complex *freq = fft(x);
+    complex *time = ifft(freq, x.d_size);
+    for (int i = 0; i < x.d_size; ++i)
+    {
+        Serial.print(time[i].real);
+        Serial.print("\t");
+        Serial.print(time[i].imag);
+        Serial.println("j");
+    }
+}
+
 void setup() {
     Serial.begin(115200);
 
-    FFT();
+    IFFT();
     
     
 }
