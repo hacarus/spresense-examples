@@ -124,12 +124,18 @@ void FusedLasso(){
     b.train(100);
     ndarray z = b.get_sparse_vec();
     show_img(z);
+    delay(1000);    
     Serial.println("-x-x-x-x-x-x-");
 }
 
 void FFT(){
     ndarray x = load_img();
-    complex *freq = fft(x);
+    complex *x_ = (complex *)calloc(x.d_size, sizeof(complex));
+    for (int i = 0; i < x.d_size; ++i){
+        x_[i].real = x.data[i];
+        x_[i].imag = 0;
+    }
+    complex *freq = fft(x_, x.d_size);
     for (int i = 0; i < x.d_size; ++i)
     {
         Serial.print(freq[i].real);
@@ -141,7 +147,13 @@ void FFT(){
 
 void IFFT(){
     ndarray x = load_img();
-    complex *freq = fft(x);
+    complex *x_ = (complex *)calloc(x.d_size, sizeof(complex));
+    for (int i = 0; i < x.d_size; ++i)
+    {
+        x_[i].real = x.data[i];
+        x_[i].imag = 0;
+    }
+    complex *freq = fft(x_, x.d_size);
     complex *time = ifft(freq, x.d_size);
     for (int i = 0; i < x.d_size; ++i)
     {
@@ -155,9 +167,15 @@ void IFFT(){
 void setup() {
     Serial.begin(115200);
 
+    // int N = read_int();
+    // int bit = bit_count(N - 1);
+    // for (int i = 0; i < N; ++i)
+    // {
+    //     Serial.println(bit_reverse(i, bit));
+    // }
+    // FusedLasso();
     IFFT();
-    
-    
+    Serial.println("-x-x-x-x-x-x-");
 }
 
 void loop() {

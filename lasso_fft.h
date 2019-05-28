@@ -2,5 +2,5 @@
 
 uint bit_count(uint data);
 uint bit_reverse(uint data, int &i);
-complex* fft(ndarray &a);
+complex *fft(complex *a, int N);
 complex* ifft(complex *a, int N);

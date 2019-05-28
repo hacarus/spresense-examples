@@ -37,10 +37,9 @@ inline void butterfly(complex &a, complex &b, complex w){
     a = a + bw;
 }
 
-
-complex* fft(ndarray &a){
-    complex *freq = (complex*)calloc(a.d_size, sizeof(complex));
-    int N = a.d_size;
+complex *fft(complex *a, int N)
+{
+    complex *freq = (complex *)calloc(N, sizeof(complex));
     int bit = bit_count(N-1);
     complex t = {0, -2*PI / N};
     complex W = cexp(t);
@@ -49,8 +48,8 @@ complex* fft(ndarray &a){
     int k_ = 1;
 
     for (int i = 0; i < N; ++i)
-    {
-        freq[i].real = a.data[bit_reverse(i, bit)];
+    { 
+        freq[i] = a[bit_reverse(i, bit)];
     }
 
     for(int i = 0; i < bit; ++i){
